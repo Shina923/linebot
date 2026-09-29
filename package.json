@@ -1,0 +1,31 @@
+{
+  "name": "linebot-qa-file",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LINE Q&A bot that answers from files in content/ using Gemini, with chat logs saved to Firestore",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "prepare": "git config core.hooksPath .githooks || true",
+    "check-secrets": "node scripts/check-secrets.mjs"
+  },
+  "dependencies": {
+    "@google/genai": "^2.24.0",
+    "@line/bot-sdk": "^11.3.0",
+    "firebase-admin": "^14.5.0",
+    "next": "^16.3.7",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}
