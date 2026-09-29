@@ -18,22 +18,28 @@ LINE webhook → /api/line/webhook
 |---|---|
 | `content/rules.md` | 比賽規則全文（Markdown），要換規則改這裡 |
 | `content/prompt.md` | 系統提示語、無法回答 / 發生錯誤時的回覆 |
-| `lib/content.ts` | 讀取 `content/` 裡的規則與提示語 |
+| `content/settings.json` | Gemini 模型、temperature、群組回覆方式 |
+| `lib/content.ts` | 讀取並檢查 `content/` 裡的規則、提示語與設定 |
 | `lib/gemini.ts` | Gemini 呼叫 |
 | `lib/firestore.ts` | 寫入 `chatbot` collection（與 dify-firestore 同欄位，另加 `group_id` / `room_id`） |
 | `app/api/line/webhook/route.ts` | LINE webhook |
 | `app/api/health/route.ts` | 健康檢查 |
 
-## 修改規則與提示語
+## 修改規則、提示語與設定
 
-規則在 `content/rules.md`，提示語在 `content/prompt.md`（`## ` 標題不要改，`{{rules}}` 會自動換成規則全文）。
+- 規則：`content/rules.md`
+- 提示語：`content/prompt.md`（`## ` 標題不要改，`{{rules}}` 會自動換成規則全文）
+- 設定：`content/settings.json`（模型、temperature、群組回覆方式，各欄位說明寫在檔案的 `_說明` 裡）
+
+內容有誤（例如 JSON 格式錯、少了段落）時，Vercel 部署會失敗並顯示原因，線上會繼續跑上一個正常版本。
+
 直接編輯，commit 並推上 GitHub 後，Vercel 會自動重新部署，大約一分鐘後生效。
 在 GitHub 網頁上點檔案 → 鉛筆圖示就能直接改，不需要在電腦上裝開發環境。
 
 ## 群組行為
 
 在群組或多人聊天室中，預設只有在 **@機器人** 時才回覆，避免每句話都被回。
-想改成全部都回，把環境變數 `REPLY_ONLY_WHEN_MENTIONED_IN_GROUP` 設成 `false`。
+想改成全部都回，把 `content/settings.json` 的 `replyOnlyWhenMentionedInGroup` 改成 `false`。
 
 ## 防止金鑰外洩
 

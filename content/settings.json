@@ -1,0 +1,10 @@
+{
+  "_說明": {
+    "model": "Gemini 模型名稱，可用名稱見 https://ai.google.dev/gemini-api/docs/models",
+    "temperature": "0 ~ 2，越低回答越穩定一致，越高越有變化。規則問答建議 0.2 ~ 0.7",
+    "replyOnlyWhenMentionedInGroup": "true：群組 / 多人聊天室中只在被 @機器人 時回覆；false：每則訊息都回覆（一對一聊天不受影響）"
+  },
+  "model": "gemini-2.5-flash",
+  "temperature": 0.7,
+  "replyOnlyWhenMentionedInGroup": true
+}

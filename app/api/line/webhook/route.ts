@@ -1,14 +1,12 @@
 import { validateSignature, webhook } from "@line/bot-sdk";
 import { after } from "next/server";
-import { PROMPTS } from "@/lib/content";
+import { PROMPTS, SETTINGS } from "@/lib/content";
 import { askGemini } from "@/lib/gemini";
 import { saveChatLog } from "@/lib/firestore";
 import { lineClient, toLineText } from "@/lib/line";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
-
-const replyOnlyWhenMentioned = process.env.REPLY_ONLY_WHEN_MENTIONED_IN_GROUP !== "false";
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -37,7 +35,7 @@ async function handleEvent(event: webhook.Event) {
   if (inGroup) {
     const mentionees = message.mention?.mentionees ?? [];
     const botMention = mentionees.find((m) => m.type === "user" && m.isSelf);
-    if (replyOnlyWhenMentioned && !botMention) return;
+    if (SETTINGS.replyOnlyWhenMentionedInGroup && !botMention) return;
     // 把「@機器人」那段文字拿掉，只留問題本身
     if (botMention) {
       query = (query.slice(0, botMention.index) + query.slice(botMention.index + botMention.length)).trim();
